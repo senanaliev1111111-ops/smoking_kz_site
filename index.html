@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Смерти от курения в Казахстане</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+.card {
+    background: #1e293b;
+    padding: 30px;
+    max-width: 700px;
+    margin: auto;
+    border-radius: 15px;
+}
+h1, h2 { color: #f87171; }
+#counter { font-size: 50px; color: #f87171; margin: 20px 0; }
+a.button {
+    display:inline-block;
+    margin-top:20px;
+    padding:15px 30px;
+    background:#22c55e;
+    color:white;
+    text-decoration:none;
+    border-radius:15px;
+    font-weight:bold;
+}
+canvas { margin-top: 20px; background:white; border-radius:15px; }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Курение в Казахстане</h1>
+    <p>По оценкам экспертов:</p>
+    <div style="font-size:30px;">≈ 15 100 человек умерли в 2021 году</div>
+    <p>Это около <b>8.3%</b> всех смертей</p>
+
+    <h2>Смерти сегодня:</h2>
+    <div id="counter"></div>
+
+    <a class="button" href="https://quitnow.net/" target="_blank">Как бросить курить</a>
+
+    <h2>Смерти по годам</h2>
+    <canvas id="smokingChart" width="600" height="300"></canvas>
+</div>
+
+<script>
+// Счётчик "умирают сегодня"
+const deathsPerYear = 15100;
+const deathsPerDay = deathsPerYear / 365;
+function updateCounter() {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const secondsToday = (now - startOfDay) / 1000;
+    const count = deathsPerDay * (secondsToday / (24*3600));
+    document.getElementById('counter').innerText = Math.floor(count);
+}
+setInterval(updateCounter, 1000);
+updateCounter();
+
+// График по годам
+const ctx = document.getElementById('smokingChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['2018', '2019', '2020', '2021', '2022'],
+        datasets: [{
+            label: 'Смерти',
+            data: [14000, 14500, 14800, 15100, 15200],
+            backgroundColor: 'rgba(248,113,113,0.7)',
+            borderColor: 'rgba(248,113,113,1)',
+            borderWidth: 1
+        }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+});
+</script>
+
+</body>
+</html>
